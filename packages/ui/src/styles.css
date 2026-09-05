@@ -1,0 +1,178 @@
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif,
+    system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-hero: var(--hero);
+  --color-hero-deep: var(--hero-deep);
+  --color-achievement: var(--achievement);
+  --color-achievement-foreground: var(--achievement-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --radius: 0;
+
+  --teal: #148ba6;
+  --mint: #2dd48f;
+  --mint-hover: #22c77f;
+  --sky: #0284c7;
+  --sky-hover: #036fa8;
+  --lavender: #af73d0;
+  --mint-white: #f0fdfa;
+  --ink: #0f172a;
+  --slate: #475569;
+  --border-subtle: #ddefea;
+
+  --background: var(--mint-white);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+
+  --primary: var(--mint);
+  --primary-foreground: var(--ink);
+  --primary-hover: var(--mint-hover);
+
+  --secondary: var(--sky);
+  --secondary-foreground: #ffffff;
+  --secondary-hover: var(--sky-hover);
+
+  --brand: var(--teal);
+  --brand-foreground: #ffffff;
+
+  --hero: color-mix(in oklch, var(--teal) 64%, var(--ink));
+  --hero-deep: color-mix(in oklch, var(--teal) 34%, var(--ink));
+
+  --achievement: var(--lavender);
+  --achievement-foreground: #ffffff;
+
+  --muted: var(--mint-white);
+  --muted-foreground: var(--slate);
+  --accent: color-mix(in oklch, var(--mint-white), var(--teal) 8%);
+  --accent-foreground: var(--ink);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--teal);
+
+  --chart-1: var(--teal);
+  --chart-2: var(--mint);
+  --chart-3: var(--sky);
+  --chart-4: var(--lavender);
+  --chart-5: var(--slate);
+
+  --sidebar: var(--mint-white);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--teal);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--border-subtle);
+  --sidebar-ring: var(--teal);
+}
+
+.dark {
+  --background: var(--ink);
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --popover: #1e293b;
+  --popover-foreground: #f8fafc;
+
+  --primary: var(--mint);
+  --primary-foreground: var(--ink);
+  --primary-hover: var(--mint-hover);
+
+  --secondary: var(--sky);
+  --secondary-foreground: #ffffff;
+  --secondary-hover: var(--sky-hover);
+
+  --brand: var(--teal);
+  --brand-foreground: #ffffff;
+
+  --hero: color-mix(in oklch, var(--teal) 48%, var(--ink));
+  --hero-deep: color-mix(in oklch, var(--teal) 22%, var(--ink));
+
+  --achievement: var(--lavender);
+  --achievement-foreground: #ffffff;
+
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: color-mix(in oklch, #1e293b, var(--teal) 18%);
+  --accent-foreground: #f8fafc;
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: color-mix(in oklch, var(--ink), white 12%);
+  --input: color-mix(in oklch, var(--ink), white 15%);
+  --ring: var(--mint);
+
+  --chart-1: var(--teal);
+  --chart-2: var(--mint);
+  --chart-3: var(--sky);
+  --chart-4: var(--lavender);
+  --chart-5: var(--slate);
+
+  --sidebar: #1e293b;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: var(--mint);
+  --sidebar-primary-foreground: var(--ink);
+  --sidebar-accent: color-mix(in oklch, #1e293b, var(--teal) 18%);
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: color-mix(in oklch, var(--ink), white 12%);
+  --sidebar-ring: var(--mint);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground;
+  }
+}

@@ -1,0 +1,25 @@
+---
+description: Use Link for in-app navigation, never raw anchor tags
+alwaysApply: true
+---
+
+# Use Link, not `<a>`
+
+For any in-app navigation, use the app's `Link` component. Do not use a raw `<a>`.
+
+- **Web (Next.js):** `import Link from "next/link"`
+- **Admin (React Router):** `import { Link } from "react-router"`
+
+This includes hash routes (`#courses`), auth pages (`/login`), and CTAs.
+
+```tsx
+// BAD
+<a href="/login">Login</a>
+<a href="#courses">Start Your Quest</a>
+
+// GOOD
+<Link href="/login">Login</Link>
+<Link href="#courses">Start Your Quest</Link>
+```
+
+Reserve `<a>` only for external URLs (`https://...`) or `mailto:` / `tel:`.

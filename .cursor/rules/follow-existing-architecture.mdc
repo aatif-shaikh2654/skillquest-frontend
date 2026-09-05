@@ -1,0 +1,59 @@
+---
+description: Follow this repo's architecture, folder structure, and coding standards
+alwaysApply: true
+---
+
+# Match the existing codebase
+
+Before adding files or inventing a pattern, read nearby code and follow it. Do not introduce a new folder layout, naming style, library, or abstraction when the current one already covers the case.
+
+## Architecture
+
+Turborepo + npm workspaces. Apps do not import each other.
+
+| Workspace | Role |
+| --- | --- |
+| `apps/web` | Next.js App Router (customer) |
+| `apps/admin` | Vite + React Router (admin) |
+| `packages/ui` (`@repo/ui`) | Shared primitives and tokens |
+| `packages/types` (`@repo/types`) | Shared API/domain types |
+
+- Shared UI: `npx shadcn@latest add <name> -c packages/ui`, then `import { Button } from "@repo/ui/components/button"`.
+- Screens and feature composition stay in the app, not in `@repo/ui`.
+- Shared request/response types go in `@repo/types`. Feature-only types and Zod schemas stay in the feature.
+
+## Feature structure
+
+Routes stay thin. Product code lives in feature modules and is imported through the feature barrel.
+
+```text
+apps/web/features/<name>/
+  index.ts                 # public exports only
+  components/              # kebab-case: login-form.tsx
+  hooks/                   # use-login.ts
+  services/                # auth.service.ts
+  schemas.ts
+```
+
+Admin mirrors this under `apps/admin/src/features/<name>/`.
+
+```tsx
+// GOOD — page imports the feature public API
+import { LoginForm } from "@/features/auth";
+
+// BAD — page reaching into feature internals, or a new top-level folder
+import { LoginForm } from "@/features/auth/components/login-form";
+```
+
+- Features import `@repo/ui` and `@repo/types`.
+- Features do not import another feature's internals or `app/`.
+- Inside a feature, use relative imports (`../hooks/use-login`).
+
+## Coding standards
+
+- TypeScript, functional components, named exports. Default export only for Next.js `page.tsx` / `layout.tsx`.
+- `"use client"` only when the file needs client APIs (forms, motion, hooks).
+- Forms: `react-hook-form` + `zodResolver` + `Controller`. Mutations: TanStack Query hooks wrapping `*.service.ts` that call `api` from `lib/axios`.
+- Style with existing Tailwind tokens and `cn` from `@repo/ui/lib/utils`. Keep `--radius: 0` (no rounded controls, no box-shadow highlights).
+- Prettier: double quotes, semicolons, trailing commas, printWidth 80.
+- Use npm, not pnpm or yarn.

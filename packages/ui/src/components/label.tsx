@@ -1,0 +1,19 @@
+"use client";
+
+import type { ComponentProps } from "react";
+import { cn } from "@repo/ui/lib/utils";
+
+function Label({ className, ...props }: ComponentProps<"label">) {
+  return (
+    <label
+      data-slot="label"
+      className={cn(
+        "flex items-center gap-2 text-[11px] leading-none font-medium tracking-[0.18em] uppercase select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export { Label };
