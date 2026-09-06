@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import type { User } from "@repo/types";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { LogoMark } from "@repo/ui/components/logo-mark";
-import { QuestLoader } from "@repo/ui/components/quest-loader";
 import { cn } from "@repo/ui/lib/utils";
-import { homePath, useAuth, useLogout } from "@/features/auth";
+import { useAuth } from "@/features/auth";
+import { NavHud } from "./nav-hud";
 import { SplitAction } from "./split-action";
 
 const links = [
@@ -23,50 +24,51 @@ const links = [
 const spring = { type: "spring", stiffness: 380, damping: 28 } as const;
 const ease = [0.22, 1, 0.36, 1] as const;
 
-function NavAuthCta({
+export type NavbarTone = "hero" | "light";
+
+function NavAuthSlot({
   tone,
   onNavigate,
+  user: userProp,
 }: {
-  tone: "ink" | "mint";
+  tone: NavbarTone;
   onNavigate?: () => void;
+  user?: User | null;
 }) {
-  const { user, ready } = useAuth();
-  const logout = useLogout();
+  const auth = useAuth();
+  const user = userProp !== undefined ? userProp : auth.user;
+  const ready = userProp !== undefined || auth.ready;
 
   if (!ready) {
     return <div className="h-10 w-28 sm:h-11" aria-hidden />;
   }
 
   if (!user) {
-    return <SplitAction href="/login" label="Login" tone={tone} />;
+    return (
+      <div className={cn(onNavigate ? "block" : "hidden lg:block")}>
+        <SplitAction
+          href="/login"
+          label="Login"
+          tone={onNavigate ? "mint" : "ink"}
+        />
+      </div>
+    );
   }
 
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <SplitAction href={homePath(user)} label="Quest" tone={tone} />
-      <button
-        type="button"
-        className={cn(
-          "inline-flex h-10 items-center justify-center border-2 px-4 text-sm font-medium tracking-tight sm:h-11 sm:px-6",
-          tone === "mint"
-            ? "border-transparent bg-white text-foreground"
-            : "border-white/95 bg-transparent text-white/95 hover:bg-white/10",
-        )}
-        disabled={logout.isPending}
-        aria-busy={logout.isPending || undefined}
-        onClick={() => {
-          onNavigate?.();
-          logout.mutate();
-        }}
-      >
-        {logout.isPending ? <QuestLoader size="sm" /> : "Logout"}
-      </button>
-    </div>
-  );
+  if (onNavigate) return null;
+
+  return <NavHud user={user} tone={tone} />;
 }
 
-export function Navbar() {
+export function Navbar({
+  tone = "hero",
+  user,
+}: {
+  tone?: NavbarTone;
+  user?: User | null;
+}) {
   const [open, setOpen] = useState(false);
+  const isLight = tone === "light";
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
@@ -130,7 +132,12 @@ export function Navbar() {
                   initial={{ opacity: 0, x: -36, scale: 0.94 }}
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: -16 }}
-                  transition={{ ...spring, stiffness: 420, damping: 20, delay: 0.1 + index * 0.06 }}
+                  transition={{
+                    ...spring,
+                    stiffness: 420,
+                    damping: 20,
+                    delay: 0.1 + index * 0.06,
+                  }}
                 >
                   <Link
                     href={link.href}
@@ -152,7 +159,11 @@ export function Navbar() {
               exit={{ opacity: 0, y: 12 }}
               transition={{ ...spring, delay: 0.42 }}
             >
-              <NavAuthCta tone="mint" onNavigate={() => setOpen(false)} />
+              <NavAuthSlot
+                tone={tone}
+                user={user}
+                onNavigate={() => setOpen(false)}
+              />
             </motion.div>
           </div>
         </motion.div>
@@ -162,7 +173,14 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header
+        className={cn(
+          "z-50",
+          isLight
+            ? "sticky top-0 border-b border-foreground/10 bg-background"
+            : "absolute inset-x-0 top-0",
+        )}
+      >
         <motion.nav
           className="relative z-50 mx-auto flex max-w-[1440px] items-center justify-between px-4 py-4 sm:px-6 sm:py-5 lg:px-10 lg:py-6"
           initial={{ opacity: 0, y: -18 }}
@@ -171,13 +189,21 @@ export function Navbar() {
         >
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-white"
+            className={cn(
+              "flex items-center gap-2.5",
+              isLight ? "text-foreground" : "text-white",
+            )}
             onClick={() => setOpen(false)}
           >
             <motion.span
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 520, damping: 16, delay: 0.08 }}
+              transition={{
+                type: "spring",
+                stiffness: 520,
+                damping: 16,
+                delay: 0.08,
+              }}
             >
               <LogoMark className="size-9 sm:size-10" />
             </motion.span>
@@ -189,7 +215,12 @@ export function Navbar() {
             </span>
           </Link>
 
-          <ul className="hidden items-center gap-9 text-[15px] font-medium text-white/95 lg:flex">
+          <ul
+            className={cn(
+              "hidden items-center gap-9 text-[15px] font-medium lg:flex",
+              isLight ? "text-foreground" : "text-white/95",
+            )}
+          >
             {links.map((link, index) => (
               <motion.li
                 key={link.href}
@@ -204,7 +235,10 @@ export function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:text-white hover:after:scale-x-100"
+                  className={cn(
+                    "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100",
+                    isLight ? "hover:text-foreground" : "hover:text-white",
+                  )}
                 >
                   {link.label}
                 </Link>
@@ -212,44 +246,43 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden lg:block">
-            <NavAuthCta tone="ink" />
+          <div className="flex items-center gap-2">
+            <NavAuthSlot tone={tone} user={user} />
+            <button
+              type="button"
+              className={cn(
+                "inline-flex size-10 items-center justify-center rounded-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none sm:size-11 lg:hidden",
+                open
+                  ? "bg-primary text-foreground"
+                  : "bg-foreground text-white hover:bg-foreground/90",
+              )}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((value) => !value)}
+            >
+              <span className="relative size-5">
+                <Menu
+                  className={cn(
+                    "absolute inset-0 size-5 transition-all duration-300",
+                    open
+                      ? "scale-50 rotate-90 opacity-0"
+                      : "scale-100 rotate-0 opacity-100",
+                  )}
+                  strokeWidth={2.25}
+                />
+                <X
+                  className={cn(
+                    "absolute inset-0 size-5 transition-all duration-300",
+                    open
+                      ? "scale-100 rotate-0 opacity-100"
+                      : "scale-50 -rotate-90 opacity-0",
+                  )}
+                  strokeWidth={2.25}
+                />
+              </span>
+            </button>
           </div>
-
-          <button
-            type="button"
-            className={cn(
-              "inline-flex size-10 items-center justify-center rounded-none transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none sm:size-11 lg:hidden",
-              open
-                ? "bg-primary text-foreground"
-                : "bg-foreground text-white hover:bg-foreground/90",
-            )}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span className="relative size-5">
-              <Menu
-                className={cn(
-                  "absolute inset-0 size-5 transition-all duration-300",
-                  open
-                    ? "scale-50 rotate-90 opacity-0"
-                    : "scale-100 rotate-0 opacity-100",
-                )}
-                strokeWidth={2.25}
-              />
-              <X
-                className={cn(
-                  "absolute inset-0 size-5 transition-all duration-300",
-                  open
-                    ? "scale-100 rotate-0 opacity-100"
-                    : "scale-50 -rotate-90 opacity-0",
-                )}
-                strokeWidth={2.25}
-              />
-            </span>
-          </button>
         </motion.nav>
       </header>
 

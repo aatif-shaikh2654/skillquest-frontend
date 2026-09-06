@@ -67,3 +67,14 @@ export type AdminLoginRequest = {
 };
 
 export type AdminLoginResponse = ApiSuccess<AdminUser>;
+export type AdminMeResponse = ApiSuccess<AdminUser>;
+
+export type Paginated<T> = {
+  items: T[];
+  page: number;
+  limit: number;
+  total_count: number;
+  total_pages: number;
+};
+
+export type AdminUsersResponse = ApiSuccess<Paginated<User>>;

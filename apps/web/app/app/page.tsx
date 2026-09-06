@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { RequireAuth, SignedInHome } from "@/features/auth";
+import { getCurrentUser } from "@/features/auth/server";
+import { QuestLogPage } from "@/features/quest-log";
 
 export const metadata: Metadata = {
-  title: "Quest · SkillQuest",
+  title: "Quest log · SkillQuest",
 };
 
-export default function StudentAppPage() {
-  return (
-    <RequireAuth>
-      <SignedInHome />
-    </RequireAuth>
-  );
+export const dynamic = "force-dynamic";
+
+export default async function StudentAppPage() {
+  const user = await getCurrentUser();
+
+  return <QuestLogPage user={user} />;
 }

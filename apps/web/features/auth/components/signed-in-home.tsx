@@ -1,38 +1,35 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@repo/ui/components/button";
 import { HudCorners } from "@repo/ui/components/hud-corners";
-import { LogoMark } from "@repo/ui/components/logo-mark";
+import { Navbar } from "@/features/landing";
 import { isGoogleEnabled } from "../utils/google";
-import { useLogout } from "../hooks/use-logout";
 import { useAuth } from "../session";
 import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function SignedInHome() {
   const { user } = useAuth();
-  const logout = useLogout();
 
   if (!user) return null;
 
   const isInstructor = user.is_instructor;
 
   return (
-    <main className="min-h-svh bg-background px-4 py-8 sm:px-8">
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2.5 text-foreground"
-        >
-          <LogoMark className="size-9" />
-          <span className="flex flex-col leading-none">
-            <span className="text-lg font-semibold tracking-tight">
-              SkillQuest
-            </span>
-            <span className="mt-1 h-0.5 w-8 bg-primary" />
-          </span>
-        </Link>
+    <div className="min-h-svh bg-background">
+      <div className="relative isolate overflow-hidden bg-hero">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklch,var(--mint)_18%,transparent),transparent_70%)]" />
+        <Navbar tone="hero" user={user} />
+        <div aria-hidden className="relative h-20 sm:h-24 lg:h-[6.5rem]" />
+      </div>
 
+      <main className="mx-auto w-full max-w-lg px-4 py-10 sm:px-6">
         <div className="relative border border-foreground/10 bg-card px-5 py-6">
           <HudCorners size="sm" tone="ink" />
           <p className="text-[10px] font-medium tracking-[0.28em] text-brand uppercase">
@@ -48,7 +45,7 @@ export function SignedInHome() {
         </div>
 
         {isGoogleEnabled ? (
-          <div className="relative flex flex-col gap-4 border border-foreground/10 bg-card px-5 py-6">
+          <div className="relative mt-6 flex flex-col gap-4 border border-foreground/10 bg-card px-5 py-6">
             <HudCorners size="sm" tone="ink" />
             <p className="text-[10px] font-medium tracking-[0.28em] text-brand uppercase">
               Connect Google
@@ -59,17 +56,7 @@ export function SignedInHome() {
             <GoogleSignInButton mode="link" />
           </div>
         ) : null}
-
-        <Button
-          type="button"
-          variant="outline"
-          size="form"
-          loading={logout.isPending}
-          onClick={() => logout.mutate()}
-        >
-          Logout
-        </Button>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

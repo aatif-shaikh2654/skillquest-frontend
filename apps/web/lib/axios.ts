@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import type { InternalAxiosRequestConfig } from "axios";
+import type { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import type { User } from "@repo/types";
 
 const FALLBACK = "Something went wrong. Try again.";
@@ -111,31 +111,85 @@ function isUser(value: unknown): value is User {
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
-let refreshPromise: Promise<boolean> | null = null;
+type RefreshResult = {
+  ok: boolean;
+  setCookies: string[];
+};
 
-function refreshSession() {
+let refreshPromise: Promise<RefreshResult> | null = null;
+
+function cookieFromConfig(config: InternalAxiosRequestConfig) {
+  const value = config.headers.get?.("Cookie") ?? config.headers.Cookie;
+
+  return typeof value === "string" && value ? value : undefined;
+}
+
+function setCookiesFromResponse(headers: AxiosResponse["headers"]) {
+  const raw = headers["set-cookie"];
+  if (!raw) return [];
+  return Array.isArray(raw) ? raw : [raw];
+}
+
+function mergeCookies(current: string, setCookies: string[]) {
+  const next = new Map(
+    current
+      .split(";")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => {
+        const index = part.indexOf("=");
+        return [part.slice(0, index), part.slice(index + 1)] as const;
+      }),
+  );
+
+  for (const header of setCookies) {
+    const pair = header.split(";")[0]?.trim();
+    if (!pair) continue;
+    const index = pair.indexOf("=");
+    if (index <= 0) continue;
+    next.set(pair.slice(0, index), pair.slice(index + 1));
+  }
+
+  return [...next.entries()]
+    .map(([name, value]) => `${name}=${value}`)
+    .join("; ");
+}
+
+function doRefresh(cookie?: string) {
+  return api
+    .post("/auth/refresh", undefined, {
+      headers: cookie ? { Cookie: cookie } : undefined,
+    })
+    .then((response) => {
+      const payload = response.data;
+      if (
+        typeof payload === "object" &&
+        payload &&
+        "data" in payload &&
+        isUser(payload.data)
+      ) {
+        sessionHandlers?.onUser(payload.data);
+      }
+      return {
+        ok: true,
+        setCookies: setCookiesFromResponse(response.headers),
+      };
+    })
+    .catch(() => {
+      sessionHandlers?.onClear();
+      return { ok: false, setCookies: [] };
+    });
+}
+
+function refreshSession(cookie?: string) {
+  if (typeof window === "undefined") {
+    return doRefresh(cookie);
+  }
+
   if (!refreshPromise) {
-    refreshPromise = api
-      .post("/auth/refresh")
-      .then((response) => {
-        const payload = response.data;
-        if (
-          typeof payload === "object" &&
-          payload &&
-          "data" in payload &&
-          isUser(payload.data)
-        ) {
-          sessionHandlers?.onUser(payload.data);
-        }
-        return true;
-      })
-      .catch(() => {
-        sessionHandlers?.onClear();
-        return false;
-      })
-      .finally(() => {
-        refreshPromise = null;
-      });
+    refreshPromise = doRefresh(cookie).finally(() => {
+      refreshPromise = null;
+    });
   }
 
   return refreshPromise;
@@ -186,12 +240,20 @@ api.interceptors.response.use(
     }
 
     config._retry = true;
-    const refreshed = await refreshSession();
-    if (!refreshed) {
+    const cookie = cookieFromConfig(config);
+    const refreshed = await refreshSession(cookie);
+    if (!refreshed.ok) {
       if (!shouldSkipUnauthorizedRedirect(config.url)) {
         sessionHandlers?.onUnauthorized();
       }
       return Promise.reject(toApiError(error));
+    }
+
+    if (cookie && refreshed.setCookies.length) {
+      config.headers.set(
+        "Cookie",
+        mergeCookies(cookie, refreshed.setCookies),
+      );
     }
 
     return api(config);

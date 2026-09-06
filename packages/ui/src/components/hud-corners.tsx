@@ -3,7 +3,7 @@ import { cn } from "@repo/ui/lib/utils";
 type HudCornersProps = {
   className?: string;
   size?: "sm" | "md" | "lg";
-  tone?: "mint" | "white" | "ink" | "danger";
+  tone?: "mint" | "white" | "ink" | "danger" | "sky" | "brand";
 };
 
 const sizes = {
@@ -17,6 +17,8 @@ const tones = {
   white: "border-white/70",
   ink: "border-foreground",
   danger: "border-destructive",
+  sky: "border-secondary",
+  brand: "border-brand",
 };
 
 const corners = [

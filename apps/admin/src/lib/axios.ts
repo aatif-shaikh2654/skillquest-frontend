@@ -2,6 +2,12 @@ import axios, { isAxiosError } from "axios";
 
 const FALLBACK = "Something went wrong. Try again.";
 
+const SKIP_UNAUTHORIZED_REDIRECT = [
+  "/admin/login",
+  "/admin/me",
+  "/admin/logout",
+];
+
 function apiBaseUrl() {
   return import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 }
@@ -14,6 +20,17 @@ export class ApiError extends Error {
     this.name = "ApiError";
     this.status = status;
   }
+}
+
+type SessionHandlers = {
+  onClear: () => void;
+  onUnauthorized: () => void;
+};
+
+let sessionHandlers: SessionHandlers | null = null;
+
+export function registerSessionHandlers(handlers: SessionHandlers | null) {
+  sessionHandlers = handlers;
 }
 
 function messageFromPayload(payload: unknown, fallback: string) {
@@ -41,6 +58,18 @@ function toApiError(error: unknown) {
     messageFromPayload(error.response?.data, error.message || FALLBACK),
     error.response?.status ?? 500,
   );
+}
+
+function shouldSkipUnauthorizedRedirect(url?: string) {
+  if (!url) return false;
+  return SKIP_UNAUTHORIZED_REDIRECT.some((path) => url.includes(path));
+}
+
+function clearUnauthorizedSession(url?: string) {
+  if (shouldSkipUnauthorizedRedirect(url)) return;
+
+  sessionHandlers?.onClear();
+  sessionHandlers?.onUnauthorized();
 }
 
 export const api = axios.create({
@@ -72,5 +101,14 @@ api.interceptors.response.use(
 
     return response;
   },
-  (error: unknown) => Promise.reject(toApiError(error)),
+  (error: unknown) => {
+    if (isAxiosError(error)) {
+      const status = error.response?.status;
+      if (status === 401 || status === 403) {
+        clearUnauthorizedSession(error.config?.url);
+      }
+    }
+
+    return Promise.reject(toApiError(error));
+  },
 );

@@ -1,12 +1,10 @@
-import { Hero, MotionRoot, Navbar } from "@/features/landing";
+import { getCurrentUser } from "@/features/auth/server";
+import { LandingPage } from "@/features/landing";
 
-export default function Page() {
-  return (
-    <MotionRoot>
-      <main>
-        <Navbar />
-        <Hero />
-      </main>
-    </MotionRoot>
-  );
+export const dynamic = "force-dynamic";
+
+export default async function Page() {
+  const user = await getCurrentUser();
+
+  return <LandingPage user={user} />;
 }

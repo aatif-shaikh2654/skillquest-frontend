@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import type { AdminUser } from "@repo/types";
+import { registerSessionHandlers } from "@/lib/axios";
 import { AuthContext } from "./context";
 import { getMe } from "./services/auth.service";
 
@@ -7,12 +8,16 @@ const LOGGED_IN_KEY = "isLoggedIn";
 
 let hydrate: Promise<AdminUser | null> | null = null;
 
+function resetHydrate() {
+  hydrate = null;
+}
+
 function hydrateUser() {
   if (!hydrate) {
     hydrate = getMe()
       .then((response) => response.data)
       .catch(() => {
-        hydrate = null;
+        resetHydrate();
         return null;
       });
   }
@@ -26,16 +31,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const setUser = useCallback((next: AdminUser | null) => {
     localStorage.setItem(LOGGED_IN_KEY, String(next !== null));
+    if (next === null) {
+      resetHydrate();
+    }
     setUserState(next);
   }, []);
 
   useEffect(() => {
+    registerSessionHandlers({
+      onClear: () => setUser(null),
+      onUnauthorized: () => {
+        if (window.location.pathname !== "/") {
+          window.location.assign("/");
+        }
+      },
+    });
+
     const session =
       localStorage.getItem(LOGGED_IN_KEY) === "true"
         ? hydrateUser().then(setUser)
         : Promise.resolve();
 
     void session.finally(() => setReady(true));
+
+    return () => registerSessionHandlers(null);
   }, [setUser]);
 
   return (

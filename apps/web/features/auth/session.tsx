@@ -15,8 +15,8 @@ import { getMe } from "./services/auth.service";
 
 const LOGGED_IN_KEY = "isLoggedIn";
 
-export function homePath(user: User) {
-  return user.is_instructor ? "/instructor" : "/app";
+export function homePath() {
+  return "/";
 }
 
 type AuthContextValue = {

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "@repo/ui/lib/toast";
 import { homePath, useAuth } from "../session";
 import { verifyOtp } from "../services/auth.service";
 
@@ -13,7 +14,8 @@ export function useVerifyOtp() {
     mutationFn: verifyOtp,
     onSuccess: (response) => {
       setUser(response.data);
-      router.replace(homePath(response.data));
+      toast.success("Signed in");
+      router.replace(homePath());
     },
   });
 }

@@ -7,7 +7,15 @@
 @source "./components";
 @source "./features";
 
+.dark {
+  --sidebar: #243044;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-accent: color-mix(in oklch, #243044, var(--teal) 24%);
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: color-mix(in oklch, #243044, white 18%);
+  --muted-foreground: #cbd5e1;
+}
 
-button{
-    cursor: pointer !important;
+button {
+  cursor: pointer !important;
 }

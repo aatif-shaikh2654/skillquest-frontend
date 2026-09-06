@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "@repo/ui/lib/toast";
 import { homePath, useAuth } from "../session";
 import { socialLogin } from "../services/auth.service";
 
@@ -13,7 +14,8 @@ export function useSocialLogin() {
     mutationFn: socialLogin,
     onSuccess: (response) => {
       setUser(response.data);
-      router.push(homePath(response.data));
+      toast.success("Signed in");
+      router.push(homePath());
     },
   });
 }

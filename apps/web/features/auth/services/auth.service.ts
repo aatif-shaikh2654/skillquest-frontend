@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from "axios";
 import type {
   AuthUserResponse,
   LinkGoogleRequest,
@@ -52,9 +53,9 @@ export function becomeInstructor() {
     .then((response) => response.data);
 }
 
-export function getMe() {
+export function getMe(config?: AxiosRequestConfig) {
   return api
-    .get<AuthUserResponse>("/user/me")
+    .get<AuthUserResponse>("/user/me", config)
     .then((response) => response.data);
 }
 

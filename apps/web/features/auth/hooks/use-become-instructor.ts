@@ -13,7 +13,7 @@ export function useBecomeInstructor() {
     mutationFn: becomeInstructor,
     onSuccess: (response) => {
       setUser(response.data);
-      router.replace(homePath(response.data));
+      router.replace(homePath());
     },
   });
 }

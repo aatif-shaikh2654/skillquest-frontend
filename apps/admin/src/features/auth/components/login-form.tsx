@@ -10,6 +10,7 @@ import {
 } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
 import { PasswordInput } from "@repo/ui/components/password-input";
+import { toast } from "@repo/ui/lib/toast";
 import { useAdminLogin } from "../hooks/use-admin-login";
 import { loginSchema, type LoginValues } from "../utils/schemas";
 import { FormStatus } from "./form-status";
@@ -33,7 +34,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       className="flex flex-col gap-6"
       onSubmit={form.handleSubmit((values) =>
         login.mutate(values, {
-          onSuccess: (response) => onSuccess(response.data),
+          onSuccess: (response) => {
+            toast.success("Signed in");
+            onSuccess(response.data);
+          },
         }),
       )}
       noValidate

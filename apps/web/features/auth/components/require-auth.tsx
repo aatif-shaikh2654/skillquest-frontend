@@ -23,7 +23,7 @@ export function RequireAuth({ instructor = false, children }: RequireAuthProps) 
     }
 
     if (user.is_instructor !== instructor) {
-      router.replace(homePath(user));
+      router.replace(homePath());
     }
   }, [ready, user, instructor, router]);
 
