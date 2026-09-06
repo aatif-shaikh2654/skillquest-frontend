@@ -3,7 +3,7 @@ import axios, { isAxiosError } from "axios";
 const FALLBACK = "Something went wrong. Try again.";
 
 function apiBaseUrl() {
-  return import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+  return import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 }
 
 export class ApiError extends Error {
@@ -44,6 +44,7 @@ function toApiError(error: unknown) {
 }
 
 export const api = axios.create({
+  withCredentials: true,
   headers: {
     accept: "application/json",
     "Content-Type": "application/json",

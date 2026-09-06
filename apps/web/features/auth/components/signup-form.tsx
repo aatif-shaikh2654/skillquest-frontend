@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
@@ -10,22 +11,28 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldSeparator,
 } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
-import { PasswordInput } from "@repo/ui/components/password-input";
+import {
+  applyApiFieldError,
+  errorMessage,
+  isEmailTakenError,
+} from "../utils/errors";
+import { isGoogleEnabled } from "../utils/google";
 import { useSignup } from "../hooks/use-signup";
-import { signupSchema, type SignupValues } from "../schemas";
+import { signupSchema, type SignupValues } from "../utils/schemas";
 import { FormStatus } from "./form-status";
+import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function SignupForm() {
+  const router = useRouter();
   const signup = useSignup();
   const form = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
       full_name: "",
       email: "",
-      phone_number: "",
-      password: "",
       acceptTerms: false,
     },
   });
@@ -34,20 +41,28 @@ export function SignupForm() {
     <form
       className="flex flex-col gap-6"
       onSubmit={form.handleSubmit((values) =>
-        signup.mutate({
-          full_name: values.full_name,
-          email: values.email,
-          phone_number: values.phone_number,
-          password: values.password,
-        }),
+        signup.mutate(
+          {
+            full_name: values.full_name,
+            email: values.email,
+          },
+          {
+            onError: (error) => {
+              if (isEmailTakenError(error)) {
+                router.push("/login");
+                return;
+              }
+              applyApiFieldError(error, form.setError);
+            },
+          },
+        ),
       )}
       noValidate
     >
       <FormStatus
-        error={signup.error instanceof Error ? signup.error.message : undefined}
-        success={
-          signup.isSuccess
-            ? "Account created. You can sign in when you're ready."
+        error={
+          signup.error && !isEmailTakenError(signup.error)
+            ? errorMessage(signup.error)
             : undefined
         }
       />
@@ -93,46 +108,6 @@ export function SignupForm() {
         />
 
         <Controller
-          name="phone_number"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid || undefined}>
-              <FieldLabel htmlFor="phone_number">Phone number</FieldLabel>
-              <Input
-                {...field}
-                id="phone_number"
-                size="form"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel"
-                placeholder="999999999"
-                aria-invalid={fieldState.invalid || undefined}
-              />
-              <FieldError errors={[fieldState.error]} />
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="password"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid || undefined}>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <PasswordInput
-                {...field}
-                id="password"
-                size="form"
-                autoComplete="new-password"
-                placeholder="At least 8 characters"
-                aria-invalid={fieldState.invalid || undefined}
-              />
-              <FieldError errors={[fieldState.error]} />
-            </Field>
-          )}
-        />
-
-        <Controller
           name="acceptTerms"
           control={form.control}
           render={({ field, fieldState }) => (
@@ -165,9 +140,16 @@ export function SignupForm() {
         />
       </FieldGroup>
 
-      <Button type="submit" size="form" disabled={signup.isPending}>
-        {signup.isPending ? "Creating account…" : "Create account"}
+      <Button type="submit" size="form" loading={signup.isPending}>
+        Create account
       </Button>
+
+      {isGoogleEnabled ? (
+        <>
+          <FieldSeparator>or</FieldSeparator>
+          <GoogleSignInButton mode="login" />
+        </>
+      ) : null}
 
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}

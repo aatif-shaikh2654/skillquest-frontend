@@ -11,7 +11,7 @@ export default function LoginPage() {
     <MotionRoot>
       <AuthShell
         title="Welcome back"
-        description="Sign in to keep building skills with courses made for modern careers."
+        description="Enter your email and we’ll send you a message to sign in."
       >
         <LoginForm />
       </AuthShell>

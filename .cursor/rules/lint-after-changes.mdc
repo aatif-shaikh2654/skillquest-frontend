@@ -1,0 +1,37 @@
+---
+description: Run lint after every code change and fix all errors and warnings
+alwaysApply: true
+---
+
+# Lint after every change
+
+After you edit, add, or delete code, run lint on the files you touched before you finish. Treat lint errors **and** warnings as blockers. Do not leave either in the diff.
+
+## How to run
+
+Use npm (never pnpm or yarn). Prefer the workspace that owns the files:
+
+```bash
+npx eslint path/to/changed-file.tsx
+# or
+npm run lint --workspace=web
+npm run lint --workspace=admin
+npm run lint --workspace=@repo/ui
+npm run lint --workspace=@repo/types
+```
+
+If several workspaces changed, lint each one. Root `npm run lint` is fine when the change is repo-wide.
+
+## What to do with results
+
+- Fix every error and warning you introduced, and any you can fix in files you already edited.
+- Do not disable a rule (`eslint-disable`) unless the rule is wrong for that line and a short comment explains why.
+- Do not ignore pre-existing lint in files you did not touch.
+- If lint fails, fix it and re-run until it is clean. Do not declare the task done while lint is failing.
+
+```tsx
+// BAD — ship with a warning or skip lint
+// eslint-disable-next-line react-hooks/exhaustive-deps
+
+// GOOD — run lint on the changed files, then fix the reported issue
+```

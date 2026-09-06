@@ -108,7 +108,11 @@ export function Hero() {
             <motion.span
               className="size-1.5 rotate-45 bg-primary"
               animate={{ scale: [1, 1.45, 1] }}
-              transition={{ duration: 1.15, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 1.15,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             />
             <span className="text-white/70">Season 2026</span>
             <span className="text-white/35">/</span>
@@ -138,7 +142,7 @@ export function Hero() {
             transition={{ ...slam, stiffness: 540, damping: 14, delay: 0.58 }}
           >
             <SplitAction
-              href="#courses"
+              href="/login"
               label="Start Your Quest"
               tone="mint"
               size="hero"

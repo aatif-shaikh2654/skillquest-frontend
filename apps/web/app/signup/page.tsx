@@ -10,8 +10,9 @@ export default function SignupPage() {
   return (
     <MotionRoot>
       <AuthShell
-        title="Start learning"
-        description="Create your SkillQuest account and get into courses built for real work."
+        variant="student"
+        title="Create your account"
+        description="Enter your name and email. We’ll send a message so you can confirm and enter the quest."
       >
         <SignupForm />
       </AuthShell>

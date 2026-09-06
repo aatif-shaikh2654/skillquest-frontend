@@ -15,13 +15,10 @@ export function XpCounter({
   className,
 }: XpCounterProps) {
   const reduced = useReducedMotion();
-  const [count, setCount] = useState(reduced ? value : 0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (reduced) {
-      setCount(value);
-      return;
-    }
+    if (reduced) return;
 
     let frame = 0;
     const duration = 900;
@@ -44,5 +41,7 @@ export function XpCounter({
     return () => cancelAnimationFrame(frame);
   }, [delay, reduced, value]);
 
-  return <p className={className}>{count.toLocaleString()}+</p>;
+  return (
+    <p className={className}>{(reduced ? value : count).toLocaleString()}+</p>
+  );
 }

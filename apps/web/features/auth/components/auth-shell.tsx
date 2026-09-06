@@ -8,13 +8,60 @@ import { LogoMark } from "@repo/ui/components/logo-mark";
 
 const slam = { type: "spring", stiffness: 420, damping: 22 } as const;
 
+export type AuthShellVariant = "default" | "student";
+
 type AuthShellProps = {
   title: string;
   description: string;
   children: ReactNode;
+  variant?: AuthShellVariant;
 };
 
-export function AuthShell({ title, description, children }: AuthShellProps) {
+type PanelConfig = {
+  map: string;
+  status: string;
+  eyebrow: string;
+  log: string;
+  code: string;
+  headline: string;
+  footnote: string;
+  stat: string;
+  statLabel: string;
+};
+
+const panels: Record<AuthShellVariant, PanelConfig> = {
+  default: {
+    map: "Map 01",
+    status: "Live",
+    eyebrow: "Mission",
+    log: "Quest log",
+    code: "01",
+    headline: "Launch Career with Ready Online Courses",
+    footnote: "Top Notch Courses",
+    stat: "5000+",
+    statLabel: "XP",
+  },
+  student: {
+    map: "Map 02",
+    status: "Open",
+    eyebrow: "Recruit",
+    log: "Learner log",
+    code: "ST",
+    headline: "Earn XP on quests built for real work.",
+    footnote: "Pick a course. Clear stages. Rank up.",
+    stat: "12k+",
+    statLabel: "XP / week",
+  },
+};
+
+export function AuthShell({
+  title,
+  description,
+  children,
+  variant = "default",
+}: AuthShellProps) {
+  const panel = panels[variant];
+
   return (
     <main className="grid min-h-svh bg-background lg:h-svh lg:grid-cols-[minmax(280px,1.05fr)_minmax(320px,0.95fr)]">
       <aside className="relative hidden overflow-hidden bg-hero text-white lg:flex lg:flex-col lg:justify-between lg:px-12 lg:py-12 xl:px-16 xl:py-14">
@@ -27,14 +74,17 @@ export function AuthShell({ title, description, children }: AuthShellProps) {
           }}
         />
         <div className="pointer-events-none absolute inset-x-[-12%] bottom-0 h-[42%] rounded-t-[50%] bg-hero-deep" />
+        {variant === "student" ? (
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklch,var(--mint)_22%,transparent),transparent_60%)]" />
+        ) : null}
         <div className="pointer-events-none absolute inset-5">
           <HudCorners size="lg" tone="white" />
           <span className="absolute top-3 left-4 text-[10px] tracking-[0.28em] text-primary uppercase">
-            Map 01
+            {panel.map}
           </span>
           <span className="absolute top-3 right-4 flex items-center gap-1.5 text-[10px] tracking-[0.28em] text-white/55 uppercase">
             <span className="size-1.5 bg-primary" />
-            Live
+            {panel.status}
           </span>
         </div>
 
@@ -54,19 +104,19 @@ export function AuthShell({ title, description, children }: AuthShellProps) {
         <div className="relative z-10 max-w-md border border-white/20 bg-hero-deep/55 px-4 py-4">
           <HudCorners size="sm" />
           <div className="flex items-center justify-between text-[10px] font-medium tracking-[0.22em] text-primary uppercase">
-            <span>Quest log</span>
-            <span className="text-white/40">01</span>
+            <span>{panel.log}</span>
+            <span className="text-white/40">{panel.code}</span>
           </div>
           <p className="mt-4 text-3xl leading-[1.1] font-bold tracking-tight text-balance xl:text-4xl">
-            Launch Career with Ready Online Courses
+            {panel.headline}
           </p>
           <div className="mt-8 flex items-end justify-between gap-3 border-t border-white/15 pt-3">
-            <p className="text-5xl font-bold tracking-tight">5000+</p>
+            <p className="text-5xl font-bold tracking-tight">{panel.stat}</p>
             <p className="pb-1 text-[10px] font-medium tracking-[0.2em] text-primary uppercase">
-              XP
+              {panel.statLabel}
             </p>
           </div>
-          <p className="mt-1 text-sm text-white/75">Top Notch Courses</p>
+          <p className="mt-3 text-sm text-white/75">{panel.footnote}</p>
         </div>
       </aside>
 
@@ -102,7 +152,7 @@ export function AuthShell({ title, description, children }: AuthShellProps) {
           <div className="mb-5 flex items-center gap-3">
             <span className="h-px flex-1 bg-foreground/15" />
             <span className="text-[10px] font-medium tracking-[0.32em] text-brand uppercase">
-              Mission
+              {panel.eyebrow}
             </span>
             <span className="h-px flex-1 bg-foreground/15" />
           </div>

@@ -9,12 +9,15 @@ import {
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldSeparator,
 } from "@repo/ui/components/field";
 import { Input } from "@repo/ui/components/input";
-import { PasswordInput } from "@repo/ui/components/password-input";
+import { applyApiFieldError, errorMessage } from "../utils/errors";
+import { isGoogleEnabled } from "../utils/google";
 import { useLogin } from "../hooks/use-login";
-import { loginSchema, type LoginValues } from "../schemas";
+import { loginSchema, type LoginValues } from "../utils/schemas";
 import { FormStatus } from "./form-status";
+import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function LoginForm() {
   const login = useLogin();
@@ -22,20 +25,20 @@ export function LoginForm() {
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
   return (
     <form
       className="flex flex-col gap-6"
-      onSubmit={form.handleSubmit((values) => login.mutate(values))}
+      onSubmit={form.handleSubmit((values) =>
+        login.mutate(values, {
+          onError: (error) => applyApiFieldError(error, form.setError),
+        }),
+      )}
       noValidate
     >
-      <FormStatus
-        error={login.error instanceof Error ? login.error.message : undefined}
-        success={login.isSuccess ? "You're signed in." : undefined}
-      />
+      <FormStatus error={login.error ? errorMessage(login.error) : undefined} />
 
       <FieldGroup>
         <Controller
@@ -57,30 +60,18 @@ export function LoginForm() {
             </Field>
           )}
         />
-
-        <Controller
-          name="password"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid || undefined}>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <PasswordInput
-                {...field}
-                id="password"
-                size="form"
-                autoComplete="current-password"
-                placeholder="Your password"
-                aria-invalid={fieldState.invalid || undefined}
-              />
-              <FieldError errors={[fieldState.error]} />
-            </Field>
-          )}
-        />
       </FieldGroup>
 
-      <Button type="submit" size="form" disabled={login.isPending}>
-        {login.isPending ? "Signing in…" : "Sign in"}
+      <Button type="submit" size="form" loading={login.isPending}>
+        Continue
       </Button>
+
+      {isGoogleEnabled ? (
+        <>
+          <FieldSeparator>or</FieldSeparator>
+          <GoogleSignInButton mode="login" />
+        </>
+      ) : null}
 
       <p className="text-center text-sm text-muted-foreground">
         New to SkillQuest?{" "}

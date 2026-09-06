@@ -6,19 +6,64 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { LogoMark } from "@repo/ui/components/logo-mark";
+import { QuestLoader } from "@repo/ui/components/quest-loader";
 import { cn } from "@repo/ui/lib/utils";
+import { homePath, useAuth, useLogout } from "@/features/auth";
 import { SplitAction } from "./split-action";
 
 const links = [
-  { href: "#about", label: "About Us" },
-  { href: "#courses", label: "Courses" },
-  { href: "#shop", label: "Shop" },
-  { href: "#blog", label: "Blog" },
-  { href: "#contact", label: "Contact Us" },
+  { href: "/#about", label: "About Us" },
+  { href: "/#courses", label: "Courses" },
+  { href: "/#shop", label: "Shop" },
+  { href: "/#blog", label: "Blog" },
+  { href: "/#contact", label: "Contact Us" },
+  { href: "/teaching", label: "Teach on SkillQuest" },
 ];
 
 const spring = { type: "spring", stiffness: 380, damping: 28 } as const;
 const ease = [0.22, 1, 0.36, 1] as const;
+
+function NavAuthCta({
+  tone,
+  onNavigate,
+}: {
+  tone: "ink" | "mint";
+  onNavigate?: () => void;
+}) {
+  const { user, ready } = useAuth();
+  const logout = useLogout();
+
+  if (!ready) {
+    return <div className="h-10 w-28 sm:h-11" aria-hidden />;
+  }
+
+  if (!user) {
+    return <SplitAction href="/login" label="Login" tone={tone} />;
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <SplitAction href={homePath(user)} label="Quest" tone={tone} />
+      <button
+        type="button"
+        className={cn(
+          "inline-flex h-10 items-center justify-center border-2 px-4 text-sm font-medium tracking-tight sm:h-11 sm:px-6",
+          tone === "mint"
+            ? "border-transparent bg-white text-foreground"
+            : "border-white/95 bg-transparent text-white/95 hover:bg-white/10",
+        )}
+        disabled={logout.isPending}
+        aria-busy={logout.isPending || undefined}
+        onClick={() => {
+          onNavigate?.();
+          logout.mutate();
+        }}
+      >
+        {logout.isPending ? <QuestLoader size="sm" /> : "Logout"}
+      </button>
+    </div>
+  );
+}
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -107,7 +152,7 @@ export function Navbar() {
               exit={{ opacity: 0, y: 12 }}
               transition={{ ...spring, delay: 0.42 }}
             >
-              <SplitAction href="/login" label="Login" tone="mint" />
+              <NavAuthCta tone="mint" onNavigate={() => setOpen(false)} />
             </motion.div>
           </div>
         </motion.div>
@@ -168,7 +213,7 @@ export function Navbar() {
           </ul>
 
           <div className="hidden lg:block">
-            <SplitAction href="/login" label="Login" tone="ink" />
+            <NavAuthCta tone="ink" />
           </div>
 
           <button

@@ -6,3 +6,8 @@
 @source "../../../packages/ui/src";
 @source "./components";
 @source "./features";
+
+
+button{
+    cursor: pointer !important;
+}
