@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { RequireAuth, SignedInHome } from "@/features/auth";
+import { RequireAuth } from "@/features/auth";
+import { InstructorPage } from "@/features/instructor";
 
 export const metadata: Metadata = {
   title: "Instructor · SkillQuest",
@@ -7,8 +8,8 @@ export const metadata: Metadata = {
 
 export default function InstructorAppPage() {
   return (
-    <RequireAuth instructor>
-      <SignedInHome />
+    <RequireAuth>
+      <InstructorPage />
     </RequireAuth>
   );
 }

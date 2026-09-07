@@ -7,5 +7,5 @@ export { GoogleSignInButton } from "./components/google-sign-in-button";
 export { RequireAuth } from "./components/require-auth";
 export { AuthProvider, useAuth, homePath } from "./session";
 export { useLogout } from "./hooks/use-logout";
-export { useBecomeInstructor } from "./hooks/use-become-instructor";
 export { isGoogleEnabled } from "./utils/google";
+export { loginPath, signupPath, verifyOtpPath } from "./utils/next-path";

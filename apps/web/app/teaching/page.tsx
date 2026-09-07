@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TeachingPage } from "@/features/teaching";
+import { TeachingPage } from "@/features/instructor";
 
 export const metadata: Metadata = {
   title: "Teach on SkillQuest",

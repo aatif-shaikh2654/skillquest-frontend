@@ -73,7 +73,7 @@ export function TeachingPage() {
               </p>
               <div className="mt-8 flex justify-center">
                 <SplitAction
-                  href="/login"
+                  href="/instructor"
                   label="Get started"
                   tone="mint"
                   size="hero"
@@ -123,12 +123,12 @@ export function TeachingPage() {
                 Ready to open an instructor desk?
               </p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Create an account first. You can apply to teach after you
-                confirm your email.
+                Sign in first. You can enlist to teach after you confirm your
+                email.
               </p>
               <div className="mt-6">
                 <Link
-                  href="/signup"
+                  href="/instructor"
                   className="inline-flex h-11 items-center border-2 border-foreground bg-primary px-6 text-sm font-medium tracking-tight text-foreground transition-colors hover:bg-primary-hover"
                 >
                   Get started

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AuthShell, SignupForm } from "@/features/auth";
 import { MotionRoot } from "@/features/landing";
@@ -14,7 +15,9 @@ export default function SignupPage() {
         title="Create your account"
         description="Enter your name and email. We’ll send a message so you can confirm and enter the quest."
       >
-        <SignupForm />
+        <Suspense>
+          <SignupForm />
+        </Suspense>
       </AuthShell>
     </MotionRoot>
   );

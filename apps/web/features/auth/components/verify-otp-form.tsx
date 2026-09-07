@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
@@ -19,6 +20,7 @@ import {
 import { applyApiFieldError, errorMessage } from "../utils/errors";
 import { useResendOtp } from "../hooks/use-resend-otp";
 import { useVerifyOtp } from "../hooks/use-verify-otp";
+import { loginPath, safeNextPath } from "../utils/next-path";
 import { verifyOtpSchema, type VerifyOtpValues } from "../utils/schemas";
 import { FormStatus } from "./form-status";
 
@@ -31,6 +33,7 @@ type VerifyOtpFormProps = {
 
 export function VerifyOtpForm({ email }: VerifyOtpFormProps) {
   const normalizedEmail = email.trim().toLowerCase();
+  const next = safeNextPath(useSearchParams().get("next"));
   const verify = useVerifyOtp();
   const resend = useResendOtp();
   const [submittedCode, setSubmittedCode] = useState<string | null>(null);
@@ -138,7 +141,7 @@ export function VerifyOtpForm({ email }: VerifyOtpFormProps) {
       <p className="text-center text-sm text-muted-foreground">
         Wrong email?{" "}
         <Link
-          href="/login"
+          href={loginPath(next)}
           className="font-medium text-brand underline-offset-4 hover:underline"
         >
           Start over

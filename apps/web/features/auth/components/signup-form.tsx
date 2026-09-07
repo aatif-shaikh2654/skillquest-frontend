@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
@@ -22,11 +22,13 @@ import {
 import { isGoogleEnabled } from "../utils/google";
 import { useSignup } from "../hooks/use-signup";
 import { signupSchema, type SignupValues } from "../utils/schemas";
+import { loginPath, safeNextPath } from "../utils/next-path";
 import { FormStatus } from "./form-status";
 import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function SignupForm() {
   const router = useRouter();
+  const next = safeNextPath(useSearchParams().get("next"));
   const signup = useSignup();
   const form = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -49,7 +51,7 @@ export function SignupForm() {
           {
             onError: (error) => {
               if (isEmailTakenError(error)) {
-                router.push("/login");
+                router.push(loginPath(next));
                 return;
               }
               applyApiFieldError(error, form.setError);
@@ -154,7 +156,7 @@ export function SignupForm() {
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href={loginPath(next)}
           className="font-medium text-brand underline-offset-4 hover:underline"
         >
           Login

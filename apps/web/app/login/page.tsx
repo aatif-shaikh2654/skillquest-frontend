@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AuthShell, LoginForm } from "@/features/auth";
 import { MotionRoot } from "@/features/landing";
@@ -13,7 +14,9 @@ export default function LoginPage() {
         title="Welcome back"
         description="Enter your email and we’ll send you a message to sign in."
       >
-        <LoginForm />
+        <Suspense>
+          <LoginForm />
+        </Suspense>
       </AuthShell>
     </MotionRoot>
   );

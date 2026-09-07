@@ -27,12 +27,12 @@ export function AppSidebar() {
   const logout = useAdminLogout();
 
   return (
-    <Sidebar collapsible="offcanvas" className="dark">
-      <SidebarHeader className="px-3 py-4">
-        <div className="flex items-center gap-3">
-          <LogoMark className="size-9" />
-          <div className="min-w-0">
-            <p className="text-[10px] font-medium tracking-[0.28em] text-brand uppercase">
+    <Sidebar collapsible="icon" className="dark">
+      <SidebarHeader className="overflow-hidden px-3 py-4 transition-[padding] duration-200 ease-linear group-data-[collapsible=icon]:px-1.5">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <LogoMark className="size-9 shrink-0" />
+          <div className="min-w-0 overflow-hidden opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-0">
+            <p className="truncate text-[10px] font-medium tracking-[0.28em] text-brand uppercase">
               Staff
             </p>
             <p className="truncate text-sm font-semibold tracking-tight text-sidebar-foreground">
@@ -73,7 +73,7 @@ export function AppSidebar() {
 
       <SidebarFooter className="px-3 py-3">
         {user ? (
-          <div className="mb-2 min-w-0 px-1">
+          <div className="mb-2 min-w-0 px-1 group-data-[collapsible=icon]:hidden">
             <p className="truncate text-sm font-medium text-sidebar-foreground">
               {user.full_name}
             </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@repo/ui/components/button";
@@ -16,11 +17,13 @@ import { applyApiFieldError, errorMessage } from "../utils/errors";
 import { isGoogleEnabled } from "../utils/google";
 import { useLogin } from "../hooks/use-login";
 import { loginSchema, type LoginValues } from "../utils/schemas";
+import { safeNextPath, signupPath } from "../utils/next-path";
 import { FormStatus } from "./form-status";
 import { GoogleSignInButton } from "./google-sign-in-button";
 
 export function LoginForm() {
   const login = useLogin();
+  const next = safeNextPath(useSearchParams().get("next"));
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -76,7 +79,7 @@ export function LoginForm() {
       <p className="text-center text-sm text-muted-foreground">
         New to SkillQuest?{" "}
         <Link
-          href="/signup"
+          href={signupPath(next)}
           className="font-medium text-brand underline-offset-4 hover:underline"
         >
           Create an account

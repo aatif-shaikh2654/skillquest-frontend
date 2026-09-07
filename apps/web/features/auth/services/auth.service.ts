@@ -47,12 +47,6 @@ export function linkGoogle(body: LinkGoogleRequest) {
     .then((response) => response.data);
 }
 
-export function becomeInstructor() {
-  return api
-    .post<AuthUserResponse>("/auth/become-instructor")
-    .then((response) => response.data);
-}
-
 export function getMe(config?: AxiosRequestConfig) {
   return api
     .get<AuthUserResponse>("/user/me", config)

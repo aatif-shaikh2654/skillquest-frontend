@@ -49,6 +49,41 @@ export type LinkGoogleRequest = {
 export type AuthUserResponse = ApiSuccess<User>;
 export type MessageResponse = ApiSuccess;
 
+export type TeachingExperience =
+  | "IN_PERSON_INFORMAL"
+  | "IN_PERSON_PROFESSIONAL"
+  | "ONLINE"
+  | "OTHER";
+
+export type VideoExperience =
+  | "BEGINNER"
+  | "SOME_KNOWLEDGE"
+  | "EXPERIENCED"
+  | "VIDEOS_READY";
+
+export type AudienceSize = "NONE" | "SMALL" | "SUFFICIENT" | "LARGE";
+
+export type TeachingTopic =
+  | "TECHNOLOGY"
+  | "DESIGN"
+  | "BUSINESS"
+  | "MARKETING"
+  | "PERSONAL_DEVELOPMENT"
+  | "MUSIC"
+  | "HEALTH_FITNESS"
+  | "LIFESTYLE"
+  | "EDUCATION"
+  | "OTHER";
+
+export type BecomeInstructorRequest = {
+  teaching_experience: TeachingExperience;
+  video_experience: VideoExperience;
+  audience_size: AudienceSize;
+  teaching_topic: TeachingTopic;
+};
+
+export type BecomeInstructorResponse = ApiSuccess<User>;
+
 export type AdminRole = "ADMIN" | "SUPER_ADMIN";
 
 export type AdminUser = {

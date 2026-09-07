@@ -1,38 +1,39 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { QuestLoadingScreen } from "@repo/ui/components/quest-loading-screen";
 import { homePath, useAuth } from "../session";
+import { loginPath } from "../utils/next-path";
 
 type RequireAuthProps = {
   instructor?: boolean;
   children: ReactNode;
 };
 
-export function RequireAuth({ instructor = false, children }: RequireAuthProps) {
+export function RequireAuth({ instructor, children }: RequireAuthProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, ready } = useAuth();
 
   useEffect(() => {
     if (!ready) return;
 
     if (!user || user.role !== "USER") {
-      router.replace("/login");
+      router.replace(loginPath(pathname));
       return;
     }
 
-    if (user.is_instructor !== instructor) {
+    if (instructor === true && !user.is_instructor) {
       router.replace(homePath());
     }
-  }, [ready, user, instructor, router]);
+  }, [ready, user, instructor, pathname, router]);
 
-  if (
-    !ready ||
-    !user ||
-    user.role !== "USER" ||
-    user.is_instructor !== instructor
-  ) {
+  if (!ready || !user || user.role !== "USER") {
+    return <QuestLoadingScreen />;
+  }
+
+  if (instructor === true && !user.is_instructor) {
     return <QuestLoadingScreen />;
   }
 

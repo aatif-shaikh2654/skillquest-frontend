@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AuthShell, VerifyOtpForm } from "@/features/auth";
+import { AuthShell, VerifyOtpForm, loginPath } from "@/features/auth";
 import { MotionRoot } from "@/features/landing";
 
 export const metadata: Metadata = {
@@ -8,13 +9,13 @@ export const metadata: Metadata = {
 };
 
 type VerifyOtpPageProps = {
-  searchParams: Promise<{ email?: string }>;
+  searchParams: Promise<{ email?: string; next?: string }>;
 };
 
 export default async function VerifyOtpPage({
   searchParams,
 }: VerifyOtpPageProps) {
-  const { email } = await searchParams;
+  const { email, next } = await searchParams;
 
   return (
     <MotionRoot>
@@ -23,12 +24,14 @@ export default async function VerifyOtpPage({
         description="Open the message we sent, then enter it below."
       >
         {email ? (
-          <VerifyOtpForm email={email} />
+          <Suspense>
+            <VerifyOtpForm email={email} />
+          </Suspense>
         ) : (
           <p className="text-sm text-muted-foreground">
             Missing email.{" "}
             <Link
-              href="/login"
+              href={loginPath(next)}
               className="font-medium text-brand underline-offset-4 hover:underline"
             >
               Go to login
