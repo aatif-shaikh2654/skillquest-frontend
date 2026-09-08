@@ -1,1 +1,1 @@
-export { AppLayout } from "./components/app-layout";
+export { AppLayout } from "./components/AppLayout";

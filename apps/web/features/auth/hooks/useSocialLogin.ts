@@ -3,9 +3,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@repo/ui/lib/toast";
-import { homePath, useAuth } from "../session";
+import { homePath, useAuth } from "../Session";
 import { socialLogin } from "../services/auth.service";
-import { safeNextPath } from "../utils/next-path";
+import { safeNextPath } from "../utils/nextPath";
 
 export function useSocialLogin() {
   const router = useRouter();

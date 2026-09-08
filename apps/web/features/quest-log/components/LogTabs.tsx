@@ -2,7 +2,7 @@
 
 import { toast } from "@repo/ui/lib/toast";
 import { cn } from "@repo/ui/lib/utils";
-import { logTabs, type LogTab } from "../quest-log-data";
+import { logTabs, type LogTab } from "../questLogData";
 
 type LogTabsProps = {
   active: LogTab;

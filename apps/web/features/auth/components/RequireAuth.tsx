@@ -3,8 +3,8 @@
 import { useEffect, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { QuestLoadingScreen } from "@repo/ui/components/quest-loading-screen";
-import { homePath, useAuth } from "../session";
-import { loginPath } from "../utils/next-path";
+import { homePath, useAuth } from "../Session";
+import { loginPath } from "../utils/nextPath";
 
 type RequireAuthProps = {
   instructor?: boolean;

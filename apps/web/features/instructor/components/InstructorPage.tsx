@@ -2,8 +2,8 @@
 
 import { useAuth } from "@/features/auth";
 import { MotionRoot } from "@/features/landing";
-import { BecomeInstructorWizard } from "./become-instructor-wizard";
-import { InstructorDesk } from "./instructor-desk";
+import { BecomeInstructorWizard } from "./BecomeInstructorWizard";
+import { InstructorDesk } from "./InstructorDesk";
 
 export function InstructorPage() {
   const { user } = useAuth();

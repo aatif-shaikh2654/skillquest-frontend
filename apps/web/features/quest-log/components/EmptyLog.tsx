@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { enrolledQuests } from "../quest-log-data";
+import { enrolledQuests } from "../questLogData";
 
 const RULES = 9;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../session";
+import { useAuth } from "../Session";
 import { linkGoogle } from "../services/auth.service";
 
 export function useLinkGoogle() {

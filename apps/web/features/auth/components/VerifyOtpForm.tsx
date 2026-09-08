@@ -18,11 +18,11 @@ import {
   InputOTPSlot,
 } from "@repo/ui/components/input-otp";
 import { applyApiFieldError, errorMessage } from "../utils/errors";
-import { useResendOtp } from "../hooks/use-resend-otp";
-import { useVerifyOtp } from "../hooks/use-verify-otp";
-import { loginPath, safeNextPath } from "../utils/next-path";
+import { useResendOtp } from "../hooks/useResendOtp";
+import { useVerifyOtp } from "../hooks/useVerifyOtp";
+import { loginPath, safeNextPath } from "../utils/nextPath";
 import { verifyOtpSchema, type VerifyOtpValues } from "../utils/schemas";
-import { FormStatus } from "./form-status";
+import { FormStatus } from "./FormStatus";
 
 const SLOT_COUNT = 6;
 const RESEND_WAIT_SECONDS = 60;

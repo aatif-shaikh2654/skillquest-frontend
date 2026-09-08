@@ -1,7 +1,7 @@
 import type { User } from "@repo/types";
-import { EmptyLog } from "./empty-log";
-import { QuestLogFrame } from "./quest-log-frame";
-import { StreakBrief } from "./streak-brief";
+import { EmptyLog } from "./EmptyLog";
+import { QuestLogFrame } from "./QuestLogFrame";
+import { StreakBrief } from "./StreakBrief";
 
 type QuestLogPageProps = {
   user: User | null;

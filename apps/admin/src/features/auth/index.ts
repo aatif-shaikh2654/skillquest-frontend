@@ -1,5 +1,5 @@
-export { LoginPage } from "./components/login-page";
-export { RequireAuth } from "./components/require-auth";
+export { LoginPage } from "./components/LoginPage";
+export { RequireAuth } from "./components/RequireAuth";
 export { useAuth } from "./context";
-export { useAdminLogout } from "./hooks/use-admin-logout";
-export { AuthProvider } from "./session";
+export { useAdminLogout } from "./hooks/useAdminLogout";
+export { AuthProvider } from "./Session";

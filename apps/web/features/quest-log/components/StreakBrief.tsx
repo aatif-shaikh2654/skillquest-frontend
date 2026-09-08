@@ -1,5 +1,5 @@
 import { cn } from "@repo/ui/lib/utils";
-import { streakWeek } from "../quest-log-data";
+import { streakWeek } from "../questLogData";
 
 export function StreakBrief() {
   return (

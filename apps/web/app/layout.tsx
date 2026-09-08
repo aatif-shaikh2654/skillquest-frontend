@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import "@repo/types";
 import "@repo/ui/lib/utils";
-import { Providers } from "./providers";
+import { Providers } from "./Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {

@@ -3,8 +3,8 @@
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { Navbar } from "@/features/landing";
 import { isGoogleEnabled } from "../utils/google";
-import { useAuth } from "../session";
-import { GoogleSignInButton } from "./google-sign-in-button";
+import { useAuth } from "../Session";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 
 export function SignedInHome() {
   const { user } = useAuth();

@@ -4,9 +4,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { User } from "@repo/types";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { toast } from "@repo/ui/lib/toast";
-import { SplitAction } from "./split-action";
-import { UserAvatar, playerFirstName } from "./user-avatar";
-import { XpCounter } from "./xp-counter";
+import { SplitAction } from "./SplitAction";
+import { UserAvatar, playerFirstName } from "./UserAvatar";
+import { XpCounter } from "./XpCounter";
 
 type PlayerStatusProps = {
   user: User;

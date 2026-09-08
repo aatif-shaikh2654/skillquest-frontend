@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { HeroDoodles } from "./hero-doodles";
+import { HeroDoodles } from "./HeroDoodles";
 import { HudCorners } from "@repo/ui/components/hud-corners";
-import { SplitAction } from "./split-action";
-import { XpCounter } from "./xp-counter";
+import { SplitAction } from "./SplitAction";
+import { XpCounter } from "./XpCounter";
 
 const slam = { type: "spring", stiffness: 480, damping: 18 } as const;
 const dock = { type: "spring", stiffness: 300, damping: 22 } as const;

@@ -12,8 +12,8 @@ import {
   useAuth,
 } from "@/features/auth";
 import { MotionRoot, playerFirstName } from "@/features/landing";
-import { InstructorHeader } from "./instructor-header";
-import { InstructorSidebar } from "./instructor-sidebar";
+import { InstructorHeader } from "./InstructorHeader";
+import { InstructorSidebar } from "./InstructorSidebar";
 
 const tiles = [
   {

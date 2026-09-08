@@ -1,5 +1,5 @@
 import { Button } from "@repo/ui/components/button";
-import { usePaginationParams } from "@/hooks/use-pagination-params";
+import { usePaginationParams } from "@/hooks/usePaginationParams";
 
 type PaginationProps = {
   totalCount: number;

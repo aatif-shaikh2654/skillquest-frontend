@@ -1,1 +1,1 @@
-export { QuestLogPage } from "./components/quest-log-page";
+export { QuestLogPage } from "./components/QuestLogPage";

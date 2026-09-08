@@ -5,7 +5,7 @@ import { HudCorners } from "@repo/ui/components/hud-corners";
 import { QuestLoader } from "@repo/ui/components/quest-loader";
 import { Navbar } from "@/features/landing";
 import { STAGES } from "../utils/constants";
-import { WizardRange } from "./wizard-range";
+import { WizardRange } from "./WizardRange";
 
 type WizardFrameProps = {
   step: number;

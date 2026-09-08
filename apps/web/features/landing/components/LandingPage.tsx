@@ -3,12 +3,12 @@
 import { useEffect } from "react";
 import type { User } from "@repo/types";
 import { useAuth } from "@/features/auth";
-import { Hero } from "./hero";
-import { HudProvider } from "./hud-provider";
-import { MotionRoot } from "./motion-root";
-import { Navbar } from "./navbar";
-import { PlayerStatus } from "./player-status";
-import { QuestBoard } from "./quest-board";
+import { Hero } from "./Hero";
+import { HudProvider } from "./HudProvider";
+import { MotionRoot } from "./MotionRoot";
+import { Navbar } from "./Navbar";
+import { PlayerStatus } from "./PlayerStatus";
+import { QuestBoard } from "./QuestBoard";
 
 type LandingPageProps = {
   user: User | null;

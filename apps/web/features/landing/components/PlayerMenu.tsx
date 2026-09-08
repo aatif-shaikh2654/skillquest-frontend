@@ -13,8 +13,8 @@ import { QuestLoader } from "@repo/ui/components/quest-loader";
 import { toast } from "@repo/ui/lib/toast";
 import { cn } from "@repo/ui/lib/utils";
 import { useLogout } from "@/features/auth";
-import { useHudOptional } from "./hud-provider";
-import { UserAvatar } from "./user-avatar";
+import { useHudOptional } from "./HudProvider";
+import { UserAvatar } from "./UserAvatar";
 
 type PlayerMenuProps = {
   user: User;

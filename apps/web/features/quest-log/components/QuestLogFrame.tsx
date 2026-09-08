@@ -10,9 +10,9 @@ import {
   useAuth,
 } from "@/features/auth";
 import { Navbar } from "@/features/landing";
-import { LogTabs } from "./log-tabs";
-import { RaidWindowBrief } from "./raid-window-brief";
-import { playerFirstName, playerStats, type LogTab } from "../quest-log-data";
+import { LogTabs } from "./LogTabs";
+import { RaidWindowBrief } from "./RaidWindowBrief";
+import { playerFirstName, playerStats, type LogTab } from "../questLogData";
 
 type QuestLogFrameProps = {
   user: User | null;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { QuestLoadingScreen } from "@repo/ui/components/quest-loading-screen";
 import { useAuth } from "../context";
-import { LoginForm } from "./login-form";
+import { LoginForm } from "./LoginForm";
 
 export function LoginPage() {
   const navigate = useNavigate();

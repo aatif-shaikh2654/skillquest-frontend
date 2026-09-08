@@ -1,7 +1,7 @@
 "use client";
 
-import { QuestCard } from "./quest-card";
-import { quests } from "./quest-data";
+import { QuestCard } from "./QuestCard";
+import { quests } from "./questData";
 
 const shell = "mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-10";
 

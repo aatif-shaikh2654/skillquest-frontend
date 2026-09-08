@@ -15,11 +15,11 @@ import {
 import { Input } from "@repo/ui/components/input";
 import { applyApiFieldError, errorMessage } from "../utils/errors";
 import { isGoogleEnabled } from "../utils/google";
-import { useLogin } from "../hooks/use-login";
+import { useLogin } from "../hooks/useLogin";
 import { loginSchema, type LoginValues } from "../utils/schemas";
-import { safeNextPath, signupPath } from "../utils/next-path";
-import { FormStatus } from "./form-status";
-import { GoogleSignInButton } from "./google-sign-in-button";
+import { safeNextPath, signupPath } from "../utils/nextPath";
+import { FormStatus } from "./FormStatus";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 
 export function LoginForm() {
   const login = useLogin();

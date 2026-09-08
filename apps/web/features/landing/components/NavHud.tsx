@@ -7,8 +7,8 @@ import { Heart, ShoppingCart } from "lucide-react";
 import type { User } from "@repo/types";
 import { toast } from "@repo/ui/lib/toast";
 import { cn } from "@repo/ui/lib/utils";
-import { useHudOptional } from "./hud-provider";
-import { PlayerMenu } from "./player-menu";
+import { useHudOptional } from "./HudProvider";
+import { PlayerMenu } from "./PlayerMenu";
 
 type NavHudProps = {
   user: User;

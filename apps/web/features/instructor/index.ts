@@ -1,2 +1,2 @@
-export { TeachingPage } from "./components/teaching-page";
-export { InstructorPage } from "./components/instructor-page";
+export { TeachingPage } from "./components/TeachingPage";
+export { InstructorPage } from "./components/InstructorPage";

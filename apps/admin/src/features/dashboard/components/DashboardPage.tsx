@@ -1,5 +1,5 @@
 import { useAuth } from "@/features/auth";
-import { UsersChart } from "./users-chart";
+import { UsersChart } from "./UsersChart";
 
 export function DashboardPage() {
   const { user } = useAuth();

@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "../services/auth.service";
-import { safeNextPath, verifyOtpPath } from "../utils/next-path";
+import { safeNextPath, verifyOtpPath } from "../utils/nextPath";
 
 export function useSignup() {
   const router = useRouter();

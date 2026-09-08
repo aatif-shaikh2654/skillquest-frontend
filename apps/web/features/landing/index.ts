@@ -1,10 +1,10 @@
-export { Navbar } from "./components/navbar";
-export { Hero } from "./components/hero";
-export { LandingPage } from "./components/landing-page";
-export { MotionRoot } from "./components/motion-root";
-export { SplitAction } from "./components/split-action";
-export { PlayerMenu } from "./components/player-menu";
+export { Navbar } from "./components/Navbar";
+export { Hero } from "./components/Hero";
+export { LandingPage } from "./components/LandingPage";
+export { MotionRoot } from "./components/MotionRoot";
+export { SplitAction } from "./components/SplitAction";
+export { PlayerMenu } from "./components/PlayerMenu";
 export {
   UserAvatar,
   playerFirstName,
-} from "./components/user-avatar";
+} from "./components/UserAvatar";

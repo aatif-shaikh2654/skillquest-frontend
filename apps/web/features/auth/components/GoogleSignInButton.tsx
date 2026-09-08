@@ -5,11 +5,11 @@ import Script from "next/script";
 import { ApiError } from "@/lib/axios";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { QuestLoader } from "@repo/ui/components/quest-loader";
-import { useLinkGoogle } from "../hooks/use-link-google";
-import { useSocialLogin } from "../hooks/use-social-login";
+import { useLinkGoogle } from "../hooks/useLinkGoogle";
+import { useSocialLogin } from "../hooks/useSocialLogin";
 import { errorMessage } from "../utils/errors";
 import { googleClientId } from "../utils/google";
-import { FormStatus } from "./form-status";
+import { FormStatus } from "./FormStatus";
 
 declare global {
   interface Window {

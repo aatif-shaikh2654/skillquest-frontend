@@ -9,8 +9,8 @@ import { HudCorners } from "@repo/ui/components/hud-corners";
 import { LogoMark } from "@repo/ui/components/logo-mark";
 import { cn } from "@repo/ui/lib/utils";
 import { useAuth } from "@/features/auth";
-import { NavHud } from "./nav-hud";
-import { SplitAction } from "./split-action";
+import { NavHud } from "./NavHud";
+import { SplitAction } from "./SplitAction";
 
 const links = [
   { href: "/#about", label: "About Us" },

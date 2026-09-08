@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ApiError } from "@/lib/axios";
-import { useBecomeInstructor } from "../hooks/use-become-instructor";
+import { useBecomeInstructor } from "../hooks/useBecomeInstructor";
 import {
   becomeInstructorSchema,
   type BecomeInstructorValues,
@@ -14,8 +14,8 @@ import {
   STAGES,
   type StageField,
 } from "../utils/constants";
-import { WizardFrame } from "./wizard-frame";
-import { WizardQuestion } from "./wizard-question";
+import { WizardFrame } from "./WizardFrame";
+import { WizardQuestion } from "./WizardQuestion";
 
 export function BecomeInstructorWizard() {
   const reduced = useReducedMotion();

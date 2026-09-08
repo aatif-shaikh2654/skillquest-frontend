@@ -5,8 +5,8 @@ import { Heart } from "lucide-react";
 import { Button } from "@repo/ui/components/button";
 import { HudCorners } from "@repo/ui/components/hud-corners";
 import { cn } from "@repo/ui/lib/utils";
-import { useHud } from "./hud-provider";
-import { questTones, type Quest } from "./quest-data";
+import { useHud } from "./HudProvider";
+import { questTones, type Quest } from "./questData";
 
 type QuestCardProps = {
   quest: Quest;

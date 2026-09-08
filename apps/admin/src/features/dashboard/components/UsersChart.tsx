@@ -6,7 +6,7 @@ import {
   type ChartConfig,
 } from "@repo/ui/components/chart";
 import { HudCorners } from "@repo/ui/components/hud-corners";
-import { USER_GROWTH, USER_GROWTH_STATS } from "./users-chart-data";
+import { USER_GROWTH, USER_GROWTH_STATS } from "./usersChartData";
 
 const chartConfig = {
   users: {

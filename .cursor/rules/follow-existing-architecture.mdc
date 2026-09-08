@@ -29,8 +29,8 @@ Routes stay thin. Product code lives in feature modules and is imported through 
 ```text
 apps/web/features/<name>/
   index.ts                 # public exports only
-  components/              # kebab-case: login-form.tsx
-  hooks/                   # use-login.ts
+  components/              # PascalCase: LoginForm.tsx
+  hooks/                   # camelCase: useLogin.ts
   services/                # auth.service.ts
   schemas.ts
 ```
@@ -42,12 +42,12 @@ Admin mirrors this under `apps/admin/src/features/<name>/`.
 import { LoginForm } from "@/features/auth";
 
 // BAD — page reaching into feature internals, or a new top-level folder
-import { LoginForm } from "@/features/auth/components/login-form";
+import { LoginForm } from "@/features/auth/components/LoginForm";
 ```
 
 - Features import `@repo/ui` and `@repo/types`.
 - Features do not import another feature's internals or `app/`.
-- Inside a feature, use relative imports (`../hooks/use-login`).
+- Inside a feature, use relative imports (`../hooks/useLogin`).
 
 ## Coding standards
 

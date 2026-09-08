@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { User } from "@repo/types";
 import { HudCorners } from "@repo/ui/components/hud-corners";
-import { DataTable, type DataTableColumn } from "@/components/data-table";
-import { Pagination } from "@/components/pagination";
-import { SearchInput } from "@/components/search-input";
-import { useDebounce } from "@/hooks/use-debounce";
-import { usePaginationParams } from "@/hooks/use-pagination-params";
-import { useUsers } from "../hooks/use-users";
+import { DataTable, type DataTableColumn } from "@/components/DataTable";
+import { Pagination } from "@/components/Pagination";
+import { SearchInput } from "@/components/SearchInput";
+import { useDebounce } from "@/hooks/useDebounce";
+import { usePaginationParams } from "@/hooks/usePaginationParams";
+import { useUsers } from "../hooks/useUsers";
 import { USERS_PAGE_SIZE } from "../services/users.service";
 
 function StatusMark({ on, label }: { on: boolean; label: string }) {

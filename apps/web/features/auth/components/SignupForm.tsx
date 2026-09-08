@@ -20,11 +20,11 @@ import {
   isEmailTakenError,
 } from "../utils/errors";
 import { isGoogleEnabled } from "../utils/google";
-import { useSignup } from "../hooks/use-signup";
+import { useSignup } from "../hooks/useSignup";
 import { signupSchema, type SignupValues } from "../utils/schemas";
-import { loginPath, safeNextPath } from "../utils/next-path";
-import { FormStatus } from "./form-status";
-import { GoogleSignInButton } from "./google-sign-in-button";
+import { loginPath, safeNextPath } from "../utils/nextPath";
+import { FormStatus } from "./FormStatus";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 
 export function SignupForm() {
   const router = useRouter();

@@ -11,9 +11,9 @@ import {
 import { Input } from "@repo/ui/components/input";
 import { PasswordInput } from "@repo/ui/components/password-input";
 import { toast } from "@repo/ui/lib/toast";
-import { useAdminLogin } from "../hooks/use-admin-login";
+import { useAdminLogin } from "../hooks/useAdminLogin";
 import { loginSchema, type LoginValues } from "../utils/schemas";
-import { FormStatus } from "./form-status";
+import { FormStatus } from "./FormStatus";
 
 type LoginFormProps = {
   onSuccess: (user: AdminUser) => void;
